@@ -34,7 +34,7 @@ int main() {
     float distance;
 
     // Zaladowanie statystyk
-    float bestDistance = 0.0f, totalDistance = 0.0f;
+    int bestDistance = 0, totalDistance = 0;
     int jumpCount = 0, deathCount = 0, gamesPlayed = 0;
     StatisticsManager::loadStatistics(coinCount, bestDistance, totalDistance, jumpCount, deathCount, gamesPlayed);
 
@@ -169,9 +169,9 @@ int main() {
                     }
 
                 } else if (gameState == Pause) {
-                    bestDistance = std::max(bestDistance, distance);
+                    bestDistance = std::max(bestDistance, static_cast<int>(distance));
                     coinCount += currentCoinCount;
-                    totalDistance += distance;
+                    totalDistance += static_cast<int>(distance);
                     StatisticsManager::saveStatistics(coinCount, bestDistance, totalDistance, jumpCount, deathCount, gamesPlayed);
                     coinCountMainMenuText.setString(std::to_wstring(coinCount));
                     if (resumeButton.isClicked(sf::Mouse::getPosition(window), event.mouseButton)) {
@@ -396,7 +396,7 @@ int main() {
             // Sprawdzenie kolizji i koniec gry lub restart
             if ((cactusManager.checkCollisions(player.getGlobalBounds())) || (birdManager.checkCollisions(player.getGlobalBounds()))) {
                 coinCount += currentCoinCount;
-                bestDistance = std::max(bestDistance, distance);
+                bestDistance = std::max(bestDistance, static_cast<int>(distance));
                 deathCount++;
                 StatisticsManager::saveStatistics(coinCount, bestDistance, totalDistance, jumpCount, deathCount, gamesPlayed);
                 gameState = GameOver;
